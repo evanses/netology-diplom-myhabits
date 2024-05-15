@@ -100,8 +100,10 @@ class ProgressCollectionViewCell : UICollectionViewCell {
     
     //MARK: - Public
     
-    func updateProgress(_ progress: Float) {
-        percentLabel.text = "\(Int(progress))%"
+    func updateProgress() {
+        let progress = HabitsStore.shared.todayProgress
+        
+        percentLabel.text = "\(progress)%"
         
         prograssBar.progress = progress/100
         

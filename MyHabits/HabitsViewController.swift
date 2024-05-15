@@ -151,8 +151,7 @@ extension HabitsViewController: UICollectionViewDataSource {
                 withReuseIdentifier: CollectionCellReuseID.header.rawValue,
                 for: indexPath) as! ProgressCollectionViewCell
             
-            cell.updateProgress(store.todayProgress)
-            
+            cell.updateProgress()
             return cell
         }
         
@@ -162,6 +161,11 @@ extension HabitsViewController: UICollectionViewDataSource {
         
         let habitCell = store.habits[indexPath.row]
         cell.setup(with: habitCell, and: indexPath.row)
+        
+        cell.forUpdateProgess = { [weak self] in
+            self?.collectionView.reloadData()
+        }
+
 
         return cell
 

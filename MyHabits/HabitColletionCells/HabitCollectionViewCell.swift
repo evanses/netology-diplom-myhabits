@@ -4,6 +4,8 @@ class HabitCollectionViewCell : UICollectionViewCell {
     
     //MARK: - Date
     
+    var forUpdateProgess: (() -> Void)? // для обновления UIProgressView
+    
     private var index: Int = 0 // тут будет индекс привычки из HabitsStore.shared для трека
     
     private let store = HabitsStore.shared
@@ -139,15 +141,40 @@ class HabitCollectionViewCell : UICollectionViewCell {
         ])
     }
     
+    //MARK: - Animations
+    
+    private func startDoneButtonAnimation() {
+        let origin = self.notDoneImage.frame
+        
+        UIButton.animate(
+            withDuration: 0.1,
+            delay: 0.0,
+            options: .curveLinear
+        ) {
+            self.notDoneImage.alpha = 0.0
+            
+            self.doneImage.alpha = 1
+            
+            self.notDoneImage.layer.frame.size = CGSize(width: origin.width - 10.0, height: origin.height - 10.0)
+            
+            self.notDoneImage.layer.cornerRadius = self.notDoneImage.layer.cornerRadius - 5
+        } completion: { finished in
+            self.forUpdateProgess?()
+        }
+    }
+    
+    //MARK: - Actions
+    
     @objc private func doneHabit() {
         let habitCell = store.habits[self.index]
         
         HabitsStore.shared.track(habitCell)
-        
-        doneImage.isHidden = false
-        notDoneImage.isHidden = true
+    
         let trackCount = habitCell.trackDates.count
         countLabel.text = "Счетчик: \(trackCount)"
+        
+        self.startDoneButtonAnimation()
+//        self.forUpdateProgess?()
     }
     
     @objc private func dontTouch() {
@@ -174,11 +201,11 @@ class HabitCollectionViewCell : UICollectionViewCell {
         countLabel.text = "Счетчик: \(trackCount)"
         
         if !habit.isAlreadyTakenToday {
-            doneImage.isHidden = true
-            notDoneImage.isHidden = false
+            doneImage.alpha = 0
+            notDoneImage.alpha = 1
         } else {
-            doneImage.isHidden = false
-            notDoneImage.isHidden = true
+            doneImage.alpha = 1
+            notDoneImage.alpha = 0
         }
         
         self.index = index
