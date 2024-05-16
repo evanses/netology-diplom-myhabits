@@ -103,9 +103,9 @@ class ProgressCollectionViewCell : UICollectionViewCell {
     func updateProgress() {
         let progress = HabitsStore.shared.todayProgress
         
-        percentLabel.text = "\(progress)%"
+        percentLabel.text = "\(Int(progress*100))%"
         
-        prograssBar.progress = progress/100
+        prograssBar.progress = progress
         
         UIView.animate(withDuration: 0.5) {
             self.prograssBar.layoutIfNeeded()
