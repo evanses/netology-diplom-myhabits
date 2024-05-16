@@ -95,7 +95,13 @@ class EditHabitViewController : UIViewController {
         picker.title = "Выбор цвета"
         picker.supportsAlpha = false
         picker.delegate = self
-        picker.modalPresentationStyle = .popover
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            picker.modalPresentationStyle = .automatic
+        } else {
+            picker.modalPresentationStyle = .popover
+        }
+        
         picker.selectedColor = selectColorButton.backgroundColor!
         return picker
     }()
@@ -328,6 +334,7 @@ class EditHabitViewController : UIViewController {
             if inputText.count == 0 {
                 
                 let newAlertController = UIAlertController()
+                newAlertController.popoverPresentationController?.sourceView = contentView
                 newAlertController.title = "Не заполнено название!"
                 newAlertController.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: { action in }))
                 self.present(newAlertController, animated: true)
@@ -335,6 +342,7 @@ class EditHabitViewController : UIViewController {
             } else if inputText.count < 4 {
                 
                 let newAlertController = UIAlertController()
+                newAlertController.popoverPresentationController?.sourceView = contentView
                 newAlertController.title = "Слишком короткое название!"
                 newAlertController.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: { action in }))
                 self.present(newAlertController, animated: true)
@@ -367,6 +375,7 @@ class EditHabitViewController : UIViewController {
     }
     
     @objc private func selectColorButtonPressed() {
+        colorPicker.popoverPresentationController?.sourceView = contentView
         self.present(colorPicker, animated: true, completion: nil)
     }
     

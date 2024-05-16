@@ -93,9 +93,14 @@ class CreateHabitVIewController : UIViewController {
         picker.title = "Выбор цвета"
         picker.supportsAlpha = false
         picker.delegate = self
-        picker.modalPresentationStyle = .popover
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            picker.modalPresentationStyle = .automatic
+        } else {
+            picker.modalPresentationStyle = .popover
+        }
+        
         picker.selectedColor = selectColorButton.backgroundColor!
-        picker.popoverPresentationController?.sourceView = contentView
         return picker
     }()
     
@@ -329,6 +334,7 @@ class CreateHabitVIewController : UIViewController {
     }
     
     @objc private func selectColorButtonPressed() {
+        colorPicker.popoverPresentationController?.sourceView = contentView
         self.present(colorPicker, animated: true, completion: nil)
     }
     
