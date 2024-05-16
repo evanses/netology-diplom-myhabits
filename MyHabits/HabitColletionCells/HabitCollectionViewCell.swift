@@ -179,6 +179,7 @@ class HabitCollectionViewCell : UICollectionViewCell {
     
     @objc private func dontTouch() {
         let newAlertController = UIAlertController()
+        newAlertController.popoverPresentationController?.sourceView = self
         newAlertController.title = "Трекать привычку можно только один раз в сутки!"
         newAlertController.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: { action in }))
         

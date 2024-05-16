@@ -95,6 +95,7 @@ class CreateHabitVIewController : UIViewController {
         picker.delegate = self
         picker.modalPresentationStyle = .popover
         picker.selectedColor = selectColorButton.backgroundColor!
+        picker.popoverPresentationController?.sourceView = contentView
         return picker
     }()
     
@@ -245,7 +246,7 @@ class CreateHabitVIewController : UIViewController {
     }
     
     private func navigationBarSetup() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(barRightButtonPressed))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveButtonPressed))
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(closeButtonPressed))
         
@@ -288,12 +289,13 @@ class CreateHabitVIewController : UIViewController {
         scrollView.contentInset.bottom = 0.0
     }
         
-    @objc func barRightButtonPressed(_ sender: UIButton) {
+    @objc func saveButtonPressed(_ sender: UIButton) {
         if let inputText = inputNameTextField.text {
             
             if inputText.count == 0 {
                 
                 let newAlertController = UIAlertController()
+                newAlertController.popoverPresentationController?.sourceView = contentView
                 newAlertController.title = "Не заполнено название!"
                 newAlertController.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: { action in }))
                 self.present(newAlertController, animated: true)
@@ -301,6 +303,7 @@ class CreateHabitVIewController : UIViewController {
             } else if inputText.count < 4 {
                 
                 let newAlertController = UIAlertController()
+                newAlertController.popoverPresentationController?.sourceView = contentView
                 newAlertController.title = "Слишком короткое название!"
                 newAlertController.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: { action in }))
                 self.present(newAlertController, animated: true)
