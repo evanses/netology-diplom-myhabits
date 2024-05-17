@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  MyHabits
-//
-//  Created by eva on 15.05.2024.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -16,7 +9,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let scene = (scene as? UIWindowScene) else { return }
+        
+        let window = UIWindow(windowScene: scene)
+        
+        let habitsViewController = HabitsViewController()
+        let habitsNavigationController = UINavigationController(rootViewController: habitsViewController)
+        
+        let infoViewController = InfoViewController()
+        let infoNavigationController = UINavigationController(rootViewController: infoViewController)
+        
+        let tabBarController = UITabBarController()
+ 
+        habitsNavigationController.tabBarItem = UITabBarItem(title: "Привычки", image: .tabBarMenu , tag: 0)
+        infoNavigationController.tabBarItem = UITabBarItem(title: "Информация", image: .tabBarInfo, tag: 1)
+        
+
+        let controllers = [habitsNavigationController, infoNavigationController]
+        tabBarController.viewControllers = controllers.map { $0 }
+        tabBarController.selectedIndex = 0
+        
+        tabBarController.tabBar.tintColor = .myPurple
+        tabBarController.tabBar.backgroundColor = .white
+        
+//        UIFont.familyNames.forEach({ familyName in
+//            let fontNames = UIFont.fontNames(forFamilyName: familyName)
+//            print(familyName, fontNames)
+//        })
+
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
